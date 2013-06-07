@@ -13,7 +13,7 @@ function tims_init() {
     $theme_registry_object[$name] =
     $theme_registry_array[$name] = array(
       'function' => 'tims_render',
-      'variables' => array('template' => $name),
+      'variables' => array('template' => $name, 'theme_hook_suggestions' => theme_get_suggestions(arg(), $name)),
       'theme path' => drupal_get_path('module', 'tims') . '/theme',
       'type' => 'module',
     );
@@ -24,7 +24,7 @@ function tims_init() {
  * Renders a template using Twig.
  */
 function tims_render($variables) {
-  require_once DRUPAL_ROOT. '/sites/all/libraries/Twig/lib/Twig/Autoloader.php';
+  require_once DRUPAL_ROOT . '/sites/all/libraries/Twig/lib/Twig/Autoloader.php';
   Twig_Autoloader::register();
   require_once drupal_get_path('module', 'tims') . '/tims_extension.php';
 
