@@ -1,0 +1,6 @@
+name = Twig Integration Management System
+description = Create Twig templates through the browser without the need to add files to a theme.
+core = 7.x
+configure = admin/config/system/tims
+
+files[] = tims.module

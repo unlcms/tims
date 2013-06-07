@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * Implements hook_init().
+ */
+function tims_init() {
+  // We need to register our stuff after everything else, this is a bit of a hack to do so.
+  theme_get_registry();
+  $theme_registry_object = theme_get_registry(FALSE);
+  $theme_registry_array = &drupal_static('theme_get_registry')[1];
+
+  foreach (variable_get('tims_templates', array()) as $name => $template) {
+    $theme_registry_object[$name] =
+    $theme_registry_array[$name] = array(
+      'function' => 'tims_render',
+      'variables' => array('template' => $name),
+    );
+  }
+}
+
+/**
+ * Renders a template using Twig.
+ */
+function tims_render($variables) {
+  require_once DRUPAL_ROOT. '/sites/all/libraries/Twig/lib/Twig/Autoloader.php';
+  Twig_Autoloader::register();
+  require_once drupal_get_path('module', 'tims') . '/tims_extension.php';
+
+  $templates = variable_get('tims_templates', array());
+  $template = '';
+  foreach ($variables['theme_hook_suggestions'] as $hook) {
+    if (array_key_exists($hook, $templates)) {
+      $template = $templates[$hook];
+      break;
+    }
+  }
+
+  if (!$template) {
+    return;
+  }
+
+  $loader = new Twig_Loader_String();
+  $twig = new Twig_Environment($loader);
+  $twig->addExtension(new tims_Extension());
+  return $twig->render($template, $variables);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tims_menu() {
+  $items = array();
+
+  $items['admin/structure/tims'] = array(
+    'title' => 'Twig Templates',
+    'description' => 'Manage content templates using the Twig templating engine.',
+    'access callback' => TRUE,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tims_list'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'tims.admin.php',
+  );
+  $items['admin/structure/tims/create'] = array(
+    'title' => 'Create Template',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tims_edit', '_new_'),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'tims.admin.php',
+  );
+  $items['admin/structure/tims/%/edit'] = array(
+    'title' => 'Edit Template',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tims_edit', 3),
+    'access callback' => TRUE,
+    'file' => 'tims.admin.php',
+  );
+  $items['admin/structure/tims/%/delete'] = array(
+    'title' => 'Delete Template',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tims_delete', 3),
+    'access callback' => TRUE,
+    'file' => 'tims.admin.php',
+  );
+
+  return $items;
+}
