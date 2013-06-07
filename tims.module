@@ -13,7 +13,7 @@ function tims_init() {
     $theme_registry_object[$name] =
     $theme_registry_array[$name] = array(
       'function' => 'tims_render',
-      'variables' => array('template' => $name, 'theme_hook_suggestions' => theme_get_suggestions(arg(), $name)),
+      'variables' => array('template' => $name),
       'theme path' => drupal_get_path('module', 'tims') . '/theme',
       'type' => 'module',
     );
