@@ -30,7 +30,7 @@ function tims_render($variables) {
 
   $templates = variable_get('tims_templates', array());
   $template = '';
-  foreach ($variables['theme_hook_suggestions'] as $hook) {
+  foreach (array_reverse($variables['theme_hook_suggestions']) as $hook) {
     if (array_key_exists($hook, $templates)) {
       $template = $templates[$hook];
       break;
