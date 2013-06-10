@@ -7,7 +7,8 @@ function tims_init() {
   // We need to register our stuff after everything else, this is a bit of a hack to do so.
   theme_get_registry();
   $theme_registry_object = theme_get_registry(FALSE);
-  $theme_registry_array = &drupal_static('theme_get_registry')[1];
+  $tmp = &drupal_static('theme_get_registry');
+  $theme_registry_array = $tmp[1];
 
   foreach (variable_get('tims_templates', array()) as $name => $template) {
     $theme_registry_object[$name] =
