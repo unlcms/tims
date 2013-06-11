@@ -44,7 +44,7 @@ function tims_render($variables) {
 
   $loader = new Twig_Loader_String();
   $twig = new Twig_Environment($loader);
-  $twig->addExtension(new tims_Extension());
+  $twig->addExtension(new Tims_Extension());
   return $twig->render($template, $variables);
 }
 
@@ -55,7 +55,7 @@ function tims_menu() {
   $items = array();
 
   $items['admin/structure/tims'] = array(
-    'title' => 'Twig Templates',
+    'title' => 'Twig templates',
     'description' => 'Manage content templates using the Twig templating engine.',
     'access callback' => TRUE,
     'page callback' => 'drupal_get_form',
@@ -64,7 +64,7 @@ function tims_menu() {
     'file' => 'tims.admin.php',
   );
   $items['admin/structure/tims/create'] = array(
-    'title' => 'Create Template',
+    'title' => 'Create template',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tims_edit', '_new_'),
     'access callback' => TRUE,
@@ -72,14 +72,14 @@ function tims_menu() {
     'file' => 'tims.admin.php',
   );
   $items['admin/structure/tims/%/edit'] = array(
-    'title' => 'Edit Template',
+    'title' => 'Edit template',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tims_edit', 3),
     'access callback' => TRUE,
     'file' => 'tims.admin.php',
   );
   $items['admin/structure/tims/%/delete'] = array(
-    'title' => 'Delete Template',
+    'title' => 'Delete template',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tims_delete', 3),
     'access callback' => TRUE,
