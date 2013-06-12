@@ -1,6 +1,30 @@
 <?php
 
 /**
+ * Implements hook_help().
+ */
+function tims_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#tims':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The TIMS module allows users with the <em>Administer site configuration</em> permission to create content templates within the browser using the Twig templating language.') . '</p>';
+      $output .= '<h3>' . t('Naming your templates') . '</h3>';
+      $output .= '<p>' . t('Naming convention is based on what is contained in the theme_get_suggestions array. For example, if you would like to template a node of the article content type, instead of creating a php file named <em>node--article.tpl.php</em> you will create a template in this module\'s interface called <em>node__article</em>. See <a href="@link">Working with template suggestions</a> for more about working with template suggestions and their naming convention.', array('@link' => url('https://drupal.org/node/223440'))) . '</p>';
+      $output .= '<h3>' . t('Twig syntax') . '</h3>';
+      $output .= '<p>' . t('For a guide to the Twig syntax, refer to the <a href="@link">documention for theming Drupal 8</a> which uses Twig for theming as part of core.', array('@link' => url('https://drupal.org/node/1906384'))) . '</p>';
+      $output .= '<h3>' . t('Differences between Drupal 8 theming and this module') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('Printing a variable') . '</dt>';
+      $output .= '<dd>' . t('Drupal 8 Twig syntax needs to modified when printing a variable. The variable needs to wrapped in the render function and the raw filter must be applied.') . '</dd>';
+      $output .= '<dd>' . t('Render the body field:');
+      $output .= '<br />' . t('Drupal 7 TIMS Module: ') . '{{ render(content.body)|raw }}';
+      $output .= '<br />' . t('Drupal8: ') . '{{ content.body }}' . '</dd>';
+      $output .= '</dl>';
+      return $output;
+  }
+}
+
+/**
  * Implements hook_init().
  */
 function tims_init() {

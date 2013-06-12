@@ -8,20 +8,20 @@ function tims_edit($form, &$form_state, $template_name) {
   }
 
   $form['name'] = array(
-    '#title' => 'Name',
-    '#description' => 'The theme key for this template.',
     '#type' => 'textfield',
+    '#title' => 'Name',
     '#default_value' => ($template_name != '_new_' ? $template_name : NULL),
-    '#required' => 1,
+    '#description' => t('The theme key for this template. See <a href="@link">Working with template suggestions</a>.', array('@link' => url('https://drupal.org/node/223440'))),
+    '#required' => TRUE,
     '#disabled' => ($template_name != '_new_'),
   );
 
   $form['template'] = array(
-    '#title' => 'Template',
-    '#description' => 'The actual TWIG template.',
     '#type' => 'textarea',
+    '#title' => 'Template',
     '#default_value' => $template,
-    '#required' => 1,
+    '#rows' => 20,
+    '#description' => t('A template using Twig syntax. Refer to the <a href="@link">Theming Drupal 8</a> guide and <a href="@help">this module\'s help page</a>.', array('@link' => url('https://drupal.org/node/1906384'), '@help' => url('admin/help/tims'))),
   );
 
   $form['submit'] = array(
