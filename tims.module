@@ -81,9 +81,9 @@ function tims_menu() {
   $items['admin/structure/tims'] = array(
     'title' => 'Twig templates',
     'description' => 'Manage content templates using the Twig templating engine.',
-    'access callback' => TRUE,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tims_list'),
+    'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'tims.admin.php',
   );
@@ -91,7 +91,7 @@ function tims_menu() {
     'title' => 'Create template',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tims_edit', '_new_'),
-    'access callback' => TRUE,
+    'access arguments' => array('administer site configuration'),
     'type' => MENU_LOCAL_ACTION,
     'file' => 'tims.admin.php',
   );
@@ -99,14 +99,14 @@ function tims_menu() {
     'title' => 'Edit template',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tims_edit', 3),
-    'access callback' => TRUE,
+    'access arguments' => array('administer site configuration'),
     'file' => 'tims.admin.php',
   );
   $items['admin/structure/tims/%/delete'] = array(
     'title' => 'Delete template',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tims_delete', 3),
-    'access callback' => TRUE,
+    'access arguments' => array('administer site configuration'),
     'file' => 'tims.admin.php',
   );
 
