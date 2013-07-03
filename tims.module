@@ -14,11 +14,12 @@ function tims_help($path, $arg) {
       $output .= '<p>' . t('For a guide to the Twig syntax, refer to the <a href="@link">documention for theming Drupal 8</a> which uses Twig for theming as part of core.', array('@link' => url('https://drupal.org/node/1906384'))) . '</p>';
       $output .= '<h3>' . t('Differences between Drupal 8 theming and this module') . '</h3>';
       $output .= '<dl>';
-      $output .= '<dt>' . t('Printing a variable') . '</dt>';
-      $output .= '<dd>' . t('Drupal 8 Twig syntax needs to modified when printing a variable. The variable needs to wrapped in the render function and the raw filter must be applied.') . '</dd>';
+      $output .= '<dt>' . t('Printing a field') . '</dt>';
+      $output .= '<dd>' . t('Drupal 8 Twig syntax needs to modified when printing a field. The variable needs to wrapped in the render function and the raw filter must be applied.') . '</dd>';
       $output .= '<dd>' . t('Render the body field:');
       $output .= '<br />' . t('Drupal 7 TIMS Module: ') . '{{ render(content.body)|raw }}';
       $output .= '<br />' . t('Drupal8: ') . '{{ content.body }}' . '</dd>';
+      $output .= '<dd>' . t('Note that printing metadata such as the title or nid works as expected: ') . '{{ title }}' . '</dd>';
       $output .= '</dl>';
       return $output;
   }

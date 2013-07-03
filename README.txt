@@ -25,7 +25,7 @@ For a guide to the Twig syntax, refer to the documention for theming Drupal 8
 -----------------------
 Differences between Drupal 8 theming and this module:
 
-Drupal 8 Twig syntax needs to modified when printing a variable. The variable
+Drupal 8 Twig syntax needs to modified when printing a field. The variable
 needs to wrapped in the render function and the raw filter must be applied:
 
 Drupal 7 TIMS Module: {{ render(content.body)|raw }}
