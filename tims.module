@@ -67,7 +67,10 @@ function tims_render($variables) {
   }
 
   $loader = new Twig_Loader_String();
-  $twig = new Twig_Environment($loader);
+  $twig = new Twig_Environment($loader, array(
+    'debug' => true,
+  ));
+  $twig->addExtension(new Twig_Extension_Debug());
   $twig->addExtension(new Tims_Extension());
   return $twig->render($template, $variables);
 }
