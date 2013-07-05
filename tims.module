@@ -39,9 +39,11 @@ function tims_init() {
     $theme_registry_object[$name] =
     $theme_registry_array[$name] = array(
       'function' => 'tims_render',
-      'variables' => array('template' => $name),
       'theme path' => drupal_get_path('module', 'tims') . '/theme',
-      'type' => 'module',
+      'type' => $theme_registry_object->offsetGet($name)['type'],
+      'render element' => $theme_registry_object->offsetGet($name)['render element'],
+      'preprocess functions' => isset($theme_registry_object->offsetGet($name)['preprocess functions']) ? $theme_registry_object->offsetGet($name)['preprocess functions'] : array(),
+      'process functions' => isset($theme_registry_object->offsetGet($name)['process functions']) ? $theme_registry_object->offsetGet($name)['process functions'] : array(),
     );
   }
 }
@@ -115,4 +117,11 @@ function tims_menu() {
   );
 
   return $items;
+}
+
+function tims_preprocess_field(&$variables) {
+  array_unshift($variables['theme_hook_suggestions'], 'field');
+}
+function tims_preprocess_node(&$variables) {
+  array_unshift($variables['theme_hook_suggestions'], 'node');
 }
