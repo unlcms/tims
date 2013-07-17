@@ -36,16 +36,29 @@ function tims_init() {
   $theme_registry_array = $tmp[1];
 
   foreach (variable_get('tims_templates', array()) as $name => $template) {
-    $theme_registry_object[$name] =
-    $theme_registry_array[$name] = array(
-      'function' => 'tims_render',
-      'theme path' => drupal_get_path('module', 'tims') . '/theme',
-      'type' => $theme_registry_object->offsetGet($name)['type'],
-      'render element' => $theme_registry_object->offsetGet($name)['render element'],
-      'preprocess functions' => isset($theme_registry_object->offsetGet($name)['preprocess functions']) ? $theme_registry_object->offsetGet($name)['preprocess functions'] : array(),
-      'process functions' => isset($theme_registry_object->offsetGet($name)['process functions']) ? $theme_registry_object->offsetGet($name)['process functions'] : array(),
-    );
+    $info = array();
+    if (isset($theme_registry_array[$name])) {
+      $safeKeys = array('type', 'render element', 'preprocess functions', 'process functions', 'variables');
+      $info = array_intersect_key($theme_registry_array[$name], array_flip($safeKeys));
+    }
+
+    $info['function'] = 'tims_render';
+    $info['theme path'] = drupal_get_path('module', 'tims') . '/theme';
+    $info['process functions'][] = 'tims_set_template';
+
+    $theme_registry_object[$name] = $theme_registry_array[$name] = $info;
   }
+}
+
+/**
+ * @param $variables
+ * @param $hook
+ *
+ * Implementation of template_process.
+ * Used to determine which TWIG template to use when rendering the element.
+ */
+function tims_set_template(&$variables, $hook) {
+  $variables['#tims_template'] = $hook;
 }
 
 /**
@@ -57,7 +70,15 @@ function tims_render($variables) {
   require_once drupal_get_path('module', 'tims') . '/tims_extension.php';
 
   $templates = variable_get('tims_templates', array());
-  $template = '';
+
+  $template = NULL;
+  if (isset($variables['#tims_template'])) {
+    $hook = $variables['#tims_template'];
+    if (isset($templates[$hook])) {
+      $template = $templates[$hook];
+    }
+  }
+
   foreach (array_reverse($variables['theme_hook_suggestions']) as $hook) {
     if (array_key_exists($hook, $templates)) {
       $template = $templates[$hook];
@@ -66,6 +87,7 @@ function tims_render($variables) {
   }
 
   if (!$template) {
+    watchdog('tims', 'Unable to find the correct TWIG Template for a hooked element.', array(), WATCHDOG_ERROR);
     return;
   }
 
@@ -117,11 +139,4 @@ function tims_menu() {
   );
 
   return $items;
-}
-
-function tims_preprocess_field(&$variables) {
-  array_unshift($variables['theme_hook_suggestions'], 'field');
-}
-function tims_preprocess_node(&$variables) {
-  array_unshift($variables['theme_hook_suggestions'], 'node');
 }
