@@ -1,7 +1,7 @@
 <?php
 
 function tims_edit($form, &$form_state, $template_name) {
-  $templates = variable_get('tims_templates', array());
+  $templates = tims_get_templates();
   $template = '';
   if (array_key_exists($template_name, $templates)) {
     $template = $templates[$template_name];
@@ -33,7 +33,7 @@ function tims_edit($form, &$form_state, $template_name) {
 }
 
 function tims_edit_submit($form, &$form_state) {
-  $templates = variable_get('tims_templates', array());
+  $templates = tims_get_templates();
   $templates[$form_state['values']['name']] = $form_state['values']['template'];
   variable_set('tims_templates', $templates);
   $form_state['redirect'] = 'admin/structure/tims';
@@ -55,7 +55,7 @@ function tims_delete($form, &$form_state, $template_name) {
 }
 
 function tims_delete_submit($form, &$form_state) {
-  $templates = variable_get('tims_templates', array());
+  $templates = tims_get_templates();
   unset($templates[$form_state['values']['name']]);
   variable_set('tims_templates', $templates);
   $form_state['redirect'] = 'admin/structure/tims';
@@ -70,7 +70,7 @@ function tims_list($form, &$form_state) {
     'operations' => t('Operations'),
   );
 
-  $templates = variable_get('tims_templates', array());
+  $templates = tims_get_templates();
 
   $rows = array();
   foreach ($templates as $name => $template) {
