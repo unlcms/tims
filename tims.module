@@ -29,6 +29,11 @@ function tims_help($path, $arg) {
  * Implements hook_init().
  */
 function tims_init() {
+  // Don't apply TWIG templates to admin pages.
+  if (path_is_admin(current_path())) {
+    return;
+  }
+
   // We need to register our stuff after everything else, this is a bit of a hack to do so.
   theme_get_registry();
   $theme_registry_object = theme_get_registry(FALSE);
