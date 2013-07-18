@@ -29,6 +29,9 @@ function tims_edit($form, &$form_state, $template_name) {
     '#value' => 'Save',
   );
 
+  drupal_add_js(drupal_get_path('module', 'tims') . '/vendor/ace/src-min-noconflict/ace.js');
+  drupal_add_js(drupal_get_path('module', 'tims') . '/tims.js');
+
   return $form;
 }
 
