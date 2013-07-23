@@ -29,8 +29,12 @@ function tims_edit($form, &$form_state, $template_name) {
     '#value' => 'Save',
   );
 
-  drupal_add_js(drupal_get_path('module', 'tims') . '/vendor/ace/src-min-noconflict/ace.js');
-  drupal_add_js(drupal_get_path('module', 'tims') . '/tims.js');
+  // Checks for https://github.com/ajaxorg/ace-builds/ to be available
+  // at sites/all/libraries for syntax highlighting.
+  if (file_exists(DRUPAL_ROOT . '/sites/all/libraries/ace-builds/src-min-noconflict/ace.js')) {
+    drupal_add_js('sites/all/libraries/ace-builds/src-min-noconflict/ace.js');
+    drupal_add_js(drupal_get_path('module', 'tims') . '/tims.js');
+  }
 
   return $form;
 }
