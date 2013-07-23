@@ -116,7 +116,8 @@ function tims_render($variables) {
 
   $loader = new Twig_Loader_String();
   $twig = new Twig_Environment($loader, array(
-    'debug' => true,
+    'debug'      => TRUE,
+    'autoescape' => FALSE,
   ));
   $twig->addExtension(new Twig_Extension_Debug());
   $twig->addExtension(new Tims_Extension());
