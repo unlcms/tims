@@ -39,7 +39,7 @@ function tims_edit($form, &$form_state, $hook) {
     $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/css/css.js';
     $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/javascript/javascript.js';
     $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/htmlmixed/htmlmixed.js';
-    $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/mode/overlay.js';
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/addon/mode/overlay.js';
     $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/mode/twig.js';
 
     // Theme
