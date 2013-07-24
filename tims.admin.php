@@ -28,11 +28,26 @@ function tims_edit($form, &$form_state, $hook) {
     '#value' => 'Save',
   );
 
-  // Checks for https://github.com/ajaxorg/ace-builds/ to be available
-  // at sites/all/libraries for syntax highlighting.
-  if (file_exists(DRUPAL_ROOT . '/sites/all/libraries/ace-builds/src-min-noconflict/ace.js')) {
-    drupal_add_js('sites/all/libraries/ace-builds/src-min-noconflict/ace.js');
-    drupal_add_js(drupal_get_path('module', 'tims') . '/tims.js');
+  // Checks for http://codemirror.net/ installed at sites/all/libraries for syntax highlighting.
+  if (file_exists(DRUPAL_ROOT . '/sites/all/libraries/codemirror/lib/codemirror.js')) {
+    // Base library
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/lib/codemirror.js';
+    $form['template']['#attached']['css'][] = 'sites/all/libraries/codemirror/lib/codemirror.css';
+
+    // Modes
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/xml/xml.js';
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/css/css.js';
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/javascript/javascript.js';
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/htmlmixed/htmlmixed.js';
+    $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/mode/overlay.js';
+    $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/mode/twig.js';
+
+    // Theme
+    $form['template']['#attached']['css'][] = 'sites/all/libraries/codemirror/theme/default.css';
+
+    // This module's implementation
+    $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/tims.js';
+    $form['template']['#attached']['css'][] = drupal_get_path('module', 'tims') . '/codemirror/tims.css';
   }
 
   return $form;
