@@ -44,9 +44,6 @@ function tims_edit($form, &$form_state, $hook) {
       $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/mode/twig.js';
     }
 
-    // Theme
-    $form['template']['#attached']['css'][] = 'sites/all/libraries/codemirror/theme/default.css';
-
     // This module's implementation
     $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/tims.js';
     $form['template']['#attached']['css'][] = drupal_get_path('module', 'tims') . '/codemirror/tims.css';

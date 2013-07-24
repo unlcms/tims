@@ -6,7 +6,7 @@ CodeMirror.defineMode("twig", function(config, parserConfig) {
         while ((ch = stream.next()) != null)
           if (ch == "}" && stream.next() == "}") break;
         stream.eat("}");
-        return "twig";
+        return "atom";
       }
       while (stream.next() != null && !stream.match("{{", false)) {}
       return null;
