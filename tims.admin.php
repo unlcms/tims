@@ -87,6 +87,7 @@ function tims_list($form, &$form_state) {
     'hook' => array(
       'data' => t('Hook'),
       'field' => 'hook',
+      'sort' => 'asc',
     ),
     'operations' => t('Operations'),
   );
@@ -114,6 +115,13 @@ function tims_list($form, &$form_state) {
         ),
       ),
     );
+  }
+
+  if (tablesort_get_sort($header) == 'asc') {
+    ksort($rows);
+  }
+  else {
+    krsort($rows);
   }
 
   $form['template_list'] = array(
