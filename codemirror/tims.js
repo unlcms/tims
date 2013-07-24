@@ -27,6 +27,9 @@
             tabMode: 'shift',
             tabSize: 2
           });
+          // Set the editor height to fill as much of the viewport as possible.
+          // (430 is an arbitrary number selected using the Seven theme.)
+          editor.setSize(null, $(window).height() - 430);
           $(this).data('editor', editor);
           $(this).text(Drupal.t('Disable syntax highlighting')).addClass('enabled');
           $.cookie('codeHighlight', true);

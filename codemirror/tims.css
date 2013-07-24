@@ -1,11 +1,6 @@
 .CodeMirror {
   border: 1px solid #CCC;
   border-top-color: #999;
-  height: auto;
-}
-
-.CodeMirror-scroll {
-  height: 800px;
 }
 
 .CodeMirror pre {
