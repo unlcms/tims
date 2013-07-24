@@ -1,3 +1,8 @@
-Download Twig from http://twig.sensiolabs.org/ and move it to sites/all/libraries/
-such that it is located at sites/all/libraries/Twig/ and there is a file located
-at sites/all/libraries/Twig/lib/Twig/Autoloader.php
+Download Twig from http://twig.sensiolabs.org/ and move it to sites/all/libraries
+such that it is located at sites/all/libraries/Twig (with a file located
+at sites/all/libraries/Twig/lib/Twig/Autoloader.php).
+
+(Optional) To enable syntax highlighting, download CodeMirror from
+http://codemirror.net/ and move it to sites/all/libraries such that it is located
+at sites/all/libraries/codemirror (with a file located at
+sites/all/libraries/codemirror/lib/codemirror.js).
