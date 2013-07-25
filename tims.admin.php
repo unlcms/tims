@@ -28,6 +28,30 @@ function tims_edit($form, &$form_state, $hook) {
     '#value' => 'Save',
   );
 
+  // Checks for http://codemirror.net/ installed at sites/all/libraries for syntax highlighting.
+  if (file_exists(DRUPAL_ROOT . '/sites/all/libraries/codemirror/lib/codemirror.js')) {
+    // Base library
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/lib/codemirror.js';
+    $form['template']['#attached']['css'][] = 'sites/all/libraries/codemirror/lib/codemirror.css';
+
+    // Modes
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/xml/xml.js';
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/css/css.js';
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/javascript/javascript.js';
+    $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/mode/htmlmixed/htmlmixed.js';
+    if (file_exists(DRUPAL_ROOT . '/sites/all/libraries/codemirror/addon/mode/overlay.js')) {
+      $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/addon/mode/overlay.js';
+      $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/mode/twig.js';
+    }
+    else {
+      drupal_set_message(t('Version of CodeMirror is less than 3.01. Update sites/all/libraries/codemirror to enable syntax highlighting.'), 'warning');
+    }
+
+    // This module's implementation
+    $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/tims.js';
+    $form['template']['#attached']['css'][] = drupal_get_path('module', 'tims') . '/codemirror/tims.css';
+  }
+
   return $form;
 }
 
