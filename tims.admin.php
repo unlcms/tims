@@ -117,11 +117,11 @@ function tims_list($form, &$form_state) {
     );
   }
 
-  if (tablesort_get_sort($header) == 'asc') {
-    ksort($rows);
+  if (tablesort_get_sort($header) == 'desc') {
+    krsort($rows);
   }
   else {
-    krsort($rows);
+    ksort($rows);
   }
 
   $form['template_list'] = array(
