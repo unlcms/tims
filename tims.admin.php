@@ -43,6 +43,9 @@ function tims_edit($form, &$form_state, $hook) {
       $form['template']['#attached']['js'][] = 'sites/all/libraries/codemirror/addon/mode/overlay.js';
       $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/mode/twig.js';
     }
+    else {
+      drupal_set_message(t('Version of CodeMirror is less than 3.01. Update sites/all/libraries/codemirror to enable syntax highlighting.'), 'warning');
+    }
 
     // This module's implementation
     $form['template']['#attached']['js'][] = drupal_get_path('module', 'tims') . '/codemirror/tims.js';
