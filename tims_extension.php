@@ -13,6 +13,7 @@ class Tims_Extension extends Twig_Extension
   public function getFunctions() {
     return array(
       new Twig_SimpleFunction('render', function($a) {return drupal_render($a);}),
+      new Twig_SimpleFunction('file_get_contents', function($a) {return file_get_contents($a);}),
     );
   }
 
