@@ -50,6 +50,23 @@ function tims_init() {
     $info['function'] = 'tims_render';
     $info['theme path'] = drupal_get_path('module', 'tims') . '/theme';
     $info['process functions'][] = 'tims_set_template';
+    
+    foreach ($theme_registry_array as $key=>$item) {
+      if (!isset($item['pattern'])) {
+        //We only want items with patterns... maybe?  (trying to be super conservative here so that we don't break anything)
+        //I'm also not sure how to get the closest match if there are unspecific patterns...
+        continue;
+      }
+      
+      if (strpos($hook, $item['pattern']) !== 0) {
+        //Make sure that the pattern matches (again, I haven't thought about specificity yet)
+        continue;
+      }
+
+      //We should merge all of the regsitry items into our new one so that all
+      //normal preprocess functions are called.
+      $info = array_merge_recursive($item, $info);
+    }
 
     $theme_registry_object[$hook] = $theme_registry_array[$hook] = $info;
   }
