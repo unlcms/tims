@@ -17,6 +17,12 @@ class Tims_Extension extends Twig_Extension
       new Twig_SimpleFunction('node_load', function($nid = NULL, $vid = NULL, $reset = FALSE) {return node_load($nid, $vid, $reset);}),
       new Twig_SimpleFunction('url', function($path = NULL, $options = array()) {return url($path, $options);}),
       new Twig_SimpleFunction('views_embed_view', function($name, $display_id = 'default', $args = array()) {return views_embed_view($name, $display_id, $args);}),
+      new Twig_SimpleFunction('block_embed', function($module, $delta) {
+        $block = block_load($module, $delta);
+        $render_array = _block_get_renderable_array(_block_render_blocks(array($block)));
+        $output = drupal_render($render_array);
+        print $output;
+      }),
     );
   }
 
