@@ -38,20 +38,36 @@ function tims_init() {
   theme_get_registry();
   $theme_registry_object = theme_get_registry(FALSE);
   $tmp = &drupal_static('theme_get_registry');
-  $theme_registry_array = $tmp[1];
+  $hooks = $tmp[1];
 
   foreach (variable_get('tims_templates', array()) as $hook => $template) {
     $info = array();
-    if (isset($theme_registry_array[$hook])) {
+    $theme_hook_original = $hook;
+
+    // Webform fix. With a hook like webform_form_4, $info['render element'] needs to be populated.
+    // Other types of hooks like node make better use of theme_hook_suggestions and
+    // merge $info from the main hook (node) and sub-hook (node__4) in theme().
+    if (!isset($hooks[$hook]) && substr($hook, 0, 7) == 'webform') {
+      // Iteratively strip everything after the last '_' delimiter, until an
+      // implementation is found. Webform uses a single '_' pattern.
+      while ($pos = strrpos($hook, '_')) {
+        $hook = substr($hook, 0, $pos);
+        if (isset($hooks[$hook])) {
+          break;
+        }
+      }
+    }
+
+    if (isset($hooks[$hook])) {
       $safeKeys = array('type', 'render element', 'preprocess functions', 'process functions', 'variables');
-      $info = array_intersect_key($theme_registry_array[$hook], array_flip($safeKeys));
+      $info = array_intersect_key($hooks[$hook], array_flip($safeKeys));
     }
 
     $info['function'] = 'tims_render';
     $info['theme path'] = drupal_get_path('module', 'tims') . '/theme';
     $info['process functions'][] = 'tims_set_template';
 
-    $theme_registry_object[$hook] = $theme_registry_array[$hook] = $info;
+    $theme_registry_object[$theme_hook_original] = $hooks[$hook] = $info;
   }
 }
 
@@ -103,7 +119,9 @@ function tims_render($variables) {
   ));
   $twig->addExtension(new Twig_Extension_Debug());
   $twig->addExtension(new Tims_Extension());
-  return $twig->render($template, $variables);
+  $output = $twig->render($template, $variables);
+
+  return $output;
 }
 
 /**
