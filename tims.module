@@ -66,6 +66,35 @@ function tims_init() {
     $info['function'] = 'tims_render';
     $info['theme path'] = drupal_get_path('module', 'tims') . '/theme';
     $info['process functions'][] = 'tims_set_template';
+    
+    
+    // Use the drupal theme() logic for determining the closest match
+    // If there's no implementation, check for more generic fallbacks.
+    $match = $hook;
+    if (!isset($theme_registry_array[$match])) {
+      // Iteratively strip everything after the last '__' delimiter, until an
+      // implementation is found.
+      while ($pos = strrpos($match, '__')) {
+        $match = substr($match, 0, $pos);
+        if (isset($theme_registry_array[$match])) {
+          if (isset($theme_registry_array[$match]['function']) 
+            && $theme_registry_array[$match]['function'] == 'tims_render') {
+            //Don't merge our own TIMS hooks
+            continue;
+          }
+          
+          //We found a match!
+          break;
+        }
+      }
+      if (isset($theme_registry_array[$match])) {
+        //Only merge the hook if it exists
+
+        //We should merge all of the regsitry items into our new one so that all
+        //normal preprocess functions are called.
+        $info = array_merge_recursive($theme_registry_array[$match], $info);
+      }
+    }
 
     $theme_registry_object[$theme_hook_original] = $hooks[$hook] = $info;
   }
